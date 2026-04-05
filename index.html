@@ -22,8 +22,11 @@
             ssr:true,
             ecommerce:"dataLayer",
             userParams: {
-                tg_id: window.Telegram.WebApp.initDataUnsafe.user?.id || "not_auth"
-            }
+    // Проверяем по цепочке, чтобы не было ошибки undefined
+    tg_id: (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) 
+           ? window.Telegram.WebApp.initDataUnsafe.user.id 
+           : "browser_test"
+}
        });
     </script>
  
