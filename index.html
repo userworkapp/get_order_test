@@ -12,7 +12,7 @@
        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
-       const MY_METRIKA_ID = 108399071; // <--- ЗАМЕНИ ЭТО ЧИСЛО НА СВОЙ ID
+       const MY_METRIKA_ID = 108399071;
 
        ym(MY_METRIKA_ID, "init", {
             clickmap:true,
@@ -345,7 +345,9 @@
         }
         
         updateProgress();
+        if (tg.isVersionAtLeast('6.1')) {
         tg.HapticFeedback.selectionChanged();
+        }
     }
 
     function setDelivery(method, element) {
@@ -358,7 +360,9 @@
     function toggleUpsell() {
         const check = document.getElementById('upsell_check');
         check.checked = !check.checked;
-        tg.HapticFeedback.impactOccurred('light');
+        if (tg.isVersionAtLeast('6.1')) {
+            tg.HapticFeedback.impactOccurred('light');
+        }
         updateProgress();
     }
 
@@ -409,7 +413,9 @@
     function sendData() {
         const btn = document.getElementById('submit_btn');
         if (!btn.classList.contains('ready')) {
+            if (tg.isVersionAtLeast('6.1')) {
             tg.HapticFeedback.notificationOccurred('error');
+            }
             return;
         }
 
