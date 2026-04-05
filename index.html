@@ -354,7 +354,9 @@
         selectedDelivery = method;
         document.querySelectorAll('.delivery-option').forEach(el => el.classList.remove('active'));
         element.classList.add('active');
+        if (tg.isVersionAtLeast('6.1')) {
         tg.HapticFeedback.selectionChanged();
+        }
     }
 
     function toggleUpsell() {
