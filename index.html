@@ -19,13 +19,7 @@
             trackLinks:true,
             accurateTrackBounce:true,
             webvisor:true,
-            ecommerce:"dataLayer",
-            userParams: {
-    // Проверяем по цепочке, чтобы не было ошибки undefined
-    tg_id: (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) 
-           ? window.Telegram.WebApp.initDataUnsafe.user.id 
-           : "browser_test"
-}
+            ecommerce:"dataLayer"
        });
     </script>
  
@@ -263,15 +257,15 @@
     </div>
     <div class="form-group">
         <label>ФИО получателя</label>
-        <input type="text" id="name" data-metrika-noindex placeholder="Иванов Иван Иванович" oninput="updateProgress()">
+        <input type="text" id="name" class="ym-disable-keys" data-metrika-noindex placeholder="Иванов Иван Иванович" oninput="updateProgress()">
     </div>
     <div class="form-group">
         <label>Контактный телефон</label>
-        <input type="tel" id="phone" data-metrika-noindex placeholder="+7 (___) ___-__-__">
+        <input type="tel" id="phone" class="ym-disable-keys" data-metrika-noindex placeholder="+7 (___) ___-__-__">
     </div>
     <div class="form-group">
         <label id="address_label">Адрес ПВЗ или дома</label>
-        <textarea id="address" data-metrika-noindex rows="2" placeholder="Город, улица, дом или адрес пункта выдачи" oninput="updateProgress()"></textarea>
+        <textarea id="address" class="ym-disable-keys" data-metrika-noindex rows="2" placeholder="Город, улица, дом или адрес пункта выдачи" oninput="updateProgress()"></textarea>
     </div>
 </div>
 
@@ -473,6 +467,23 @@
     document.getElementById('price_combo').innerText = PRICES.combo + '₽';
     
     updateProgress();
+
+    // Ждем, пока Telegram скажет "я готов"
+tg.ready(); 
+
+// Отправляем ID пользователя в Метрику принудительно
+if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+    const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
+    ym(MY_METRIKA_ID, 'userParams', {
+        tg_id: userId
+    });
+    // Для отладки в консоли (потом можно удалить)
+    console.log("ID отправлен в Метрику:", userId);
+} else {
+    ym(MY_METRIKA_ID, 'userParams', {
+        tg_id: "not_in_telegram"
+    });
+}
 </script>
 </body>
 </html>
