@@ -170,17 +170,17 @@
 <div id="progress"></div>
 
 <div class="header">
-    <h2>Я это назвал внешним мозгом для кухни 🍏</h2>
-    <p style="font-size: 14px; opacity: 0.7; margin-top: 5px;">Сильно упрощает закупку продуктов и готовку на дни вперед</p>
+    <h2>Внешний мозг для кухни 🍏</h2>
+    <p style="font-size: 10px; opacity: 0.7; margin-top: 5px;">Сильно упрощает закупку продуктов и готовку на дни вперед</p>
 </div>
 
 <div id="urgency-banner" class="urgency-container">
-    <span style="font-size: 20px;">🔥</span>
+    <span style="font-size: 18px;">🔥</span>
     <span id="urgency-text" style="font-size: 13px; color: #d32f2f; line-height: 1.4; font-weight: 500;"></span>
 </div>
 
 <div class="benefits-grid">
-    <div class="benefit-item">🛡️ Ламинация на карточках</div>
+    <div class="benefit-item">🛡️ Ламинированные</div>
     <div class="benefit-item">✍️ Маркер в комплекте</div>
     <div class="benefit-item">🚀 Отправляю за 24ч</div>
     <div class="benefit-item">🥦 99% всех продуктов</div>
@@ -214,7 +214,7 @@
     <div class="upsell-card" onclick="toggleUpsell()">
         <input type="checkbox" id="upsell_check" onchange="updateProgress()">
         <div class="upsell-info">
-            <b>🎁 Подарок для близких <span class="badge-save">со скидкой 500₽</span></b>
+            <b>🎁 Подарок для близких <span class="badge-save">выгода 500₽</span></b>
             <span>Второй набор (154 карты) для мамы или друга за 1990₽.</span>
         </div>
     </div>
@@ -297,7 +297,7 @@
         const ordersCount = 2 + (seed % 5); 
 
         if (now.getHours() < 17) {
-            textElem.innerHTML = `Сегодня заказали уже <b>${ordersCount} шт</b>. Если успеешь оформить до <b>17:00</b>, тогда отправлю сегодня!`;
+            textElem.innerHTML = `Заказали уже <b>${ordersCount} шт</b>. Если успеешь оформить до <b>17:00</b>, тогда отправлю сегодня!`;
         } else {
             textElem.innerHTML = `Дневную партию уже отправил. Закажи сейчас, чтобы я отправил <b>уже завтра утром</b>!`;
         }
