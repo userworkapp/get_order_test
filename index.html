@@ -170,8 +170,8 @@
 <div id="progress"></div>
 
 <div class="header">
-    <h2>Внешний мозг для кухни 🍏</h2>
-    <p style="font-size: 14px; opacity: 0.7; margin-top: 5px;">Забудь про списки покупок навсегда</p>
+    <h2>Я это назвал внешним мозгом для кухни 🍏</h2>
+    <p style="font-size: 14px; opacity: 0.7; margin-top: 5px;">Сильно упрощает закупку продуктов и готовку на дни вперед</p>
 </div>
 
 <div id="urgency-banner" class="urgency-container">
@@ -180,32 +180,32 @@
 </div>
 
 <div class="benefits-grid">
-    <div class="benefit-item">🛡️ Вечная ламинация</div>
+    <div class="benefit-item">🛡️ Ламинация на карточках</div>
     <div class="benefit-item">✍️ Маркер в комплекте</div>
-    <div class="benefit-item">🚀 Отправка за 24ч</div>
+    <div class="benefit-item">🚀 Отправляю за 24ч</div>
     <div class="benefit-item">🥦 99% всех продуктов</div>
 </div>
 
 <div id="options">
     <div class="option-card active" onclick="selectOption('combo', PRICES.combo, this)">
-        <div class="badge">Лучший выбор • Экономия 490₽</div>
-        <b>💎 COMBO: Полная система</b>
-        <span>Карточки на холодильник + 28 рецептов в PDF. Закрывает вопрос организации кухни навсегда.</span>
-        <div class="price-tag">
+        <div class="badge">Самый выгодный • Сэкономишь 490₽</div>
+        <b>💎 COMBO: Всё включено</b>
+        <span>Карточки на холодильник + маркер + 28 рецептов в PDF. Всё как в Reels.</span>
+        <div class="price-tag">                            
             <span class="old-price">3480₽</span>
             <span id="price_combo">2990₽</span>
         </div>
     </div>
 
     <div class="option-card" onclick="selectOption('cards', PRICES.cards, this)">
-        <b>🧲 Только карточки (154 шт)</b>
-        <span>Система отслеживания продуктов. Помогает не покупать лишнее и всегда знать, что дома.</span>
+        <b>🧲 Карточки (154 шт) + маркер</b>
+        <span>Отслеживаю по ним продукты. Помогает не покупать лишнее и всегда знать, что дома.</span>
         <div class="price-tag" id="price_cards">2490₽</div>
     </div>
 
     <div class="option-card" onclick="selectOption('recipes', PRICES.recipes, this)">
-        <b>📖 Только рецепты (PDF)</b>
-        <span>28 сбалансированных блюд. Избавляет от мук выбора «что приготовить» сегодня, когда нет сил думать.</span>
+        <b>📖 28 рецептов в (PDF)</b>
+        <span>Сборник моих рецептов, по которым готовлю сам. Убирает ступор готовки, просто открыл и сразу готовишь.</span>
         <div class="price-tag" id="price_recipes">990₽</div>
     </div>
 </div>
@@ -214,14 +214,14 @@
     <div class="upsell-card" onclick="toggleUpsell()">
         <input type="checkbox" id="upsell_check" onchange="updateProgress()">
         <div class="upsell-info">
-            <b>🎁 Забота о близких? <span class="badge-save">-500₽ выгоды</span></b>
-            <span>Второй набор (154 карты) для мамы или друга всего за 1990₽.</span>
+            <b>🎁 Подарок для близких <span class="badge-save">со скидкой 500₽</span></b>
+            <span>Второй набор (154 карты) для мамы или друга за 1990₽.</span>
         </div>
     </div>
 </div>
 
 <div class="info-container">
-    <details> <summary>📦 Детали системы</summary>
+    <details> <summary>📦 Подробнее</summary>
         <div class="details-content">
             • <b>154 магнита:</b> ламинированные, не боятся влаги и жирных рук.<br>
             • <b>Маркер:</b> «пиши-стирай» в комплекте для своих заметок.<br>
@@ -232,10 +232,10 @@
     </details>
 
     <details>
-        <summary>🚚  и оплата</summary>
+        <summary>🚚 Доставка и оплата</summary>
         <div class="details-content">
             • <b>Скорость:</b> отправка Яндекс/СДЭК/Почтой за 24 часа.<br>
-            • <b>Цифра:</b> PDF с рецептами прилетит в бот сразу после оплаты.<br>
+            • <b>Рецепты:</b> PDF с рецептами прилетит в бот сразу после оплаты.<br>
             • <b>Оплата:</b> безопасный платеж через Telegram.
         </div>
     </details>
@@ -294,12 +294,12 @@
         const banner = document.getElementById('urgency-banner');
         const textElem = document.getElementById('urgency-text');
         const seed = now.getDate() + now.getMonth();
-        const ordersCount = 3 + (seed % 5); 
+        const ordersCount = 2 + (seed % 5); 
 
         if (now.getHours() < 17) {
-            textElem.innerHTML = `Сегодня уже <b>${ordersCount} заказов</b>. Успей до <b>17:00</b>, чтобы посылка уехала сегодня!`;
+            textElem.innerHTML = `Сегодня заказали уже <b>${ordersCount} шт</b>. Если успеешь оформить до <b>17:00</b>, тогда отправлю сегодня!`;
         } else {
-            textElem.innerHTML = `Дневная партия уехала. Успей сейчас, чтобы попасть в <b>первую отправку завтра</b>!`;
+            textElem.innerHTML = `Дневную партию уже отправил. Закажи сейчас, чтобы я отправил <b>уже завтра утром</b>!`;
         }
         banner.style.display = 'flex';
     }
