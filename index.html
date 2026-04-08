@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
     <title>Оформление заказа</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="text/javascript" >
@@ -19,7 +19,8 @@
             trackLinks:true,
             accurateTrackBounce:true,
             webvisor:true,
-            ecommerce:"dataLayer"
+            ecommerce:"dataLayer",
+            triggerEvent:true
        });
     </script>
  
@@ -165,7 +166,7 @@
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="ym-disable-keys" onload="document.body.style.opacity='1'; updateUrgency();">
+<body onload="document.body.style.opacity='1'; updateUrgency();">
 
 <div id="progress"></div>
 
@@ -458,7 +459,7 @@
         // Пауза перед закрытием, чтобы Метрика успела отправить запрос
         setTimeout(() => {
             tg.close();
-        }, 500);
+        }, 1000);
     }
 
     // Инициализация цен в карточках из объекта PRICES
@@ -470,6 +471,12 @@
 
     // Ждем, пока Telegram скажет "я готов"
 tg.ready(); 
+
+// Принудительный перезапуск записи для Android WebView
+if (typeof ym !== 'undefined') {
+    ym(MY_METRIKA_ID, 'setUserID', tg.initDataUnsafe?.user?.id.toString()); // Полезно для поиска записи
+    ym(MY_METRIKA_ID, 'notBounce'); // Фиксируем вход
+}
 
 // Отправляем ID пользователя в Метрику принудительно
 if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
