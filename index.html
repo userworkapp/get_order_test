@@ -20,7 +20,8 @@
             accurateTrackBounce:true,
             webvisor:true,
             ecommerce:"dataLayer",
-            triggerEvent:true
+            triggerEvent:true,
+           trustedDomains: ["web.telegram.org", "t.me"]
        });
     </script>
  
@@ -474,8 +475,16 @@ tg.ready();
 
 // Принудительный перезапуск записи для Android WebView
 if (typeof ym !== 'undefined') {
-    ym(MY_METRIKA_ID, 'setUserID', tg.initDataUnsafe?.user?.id.toString()); // Полезно для поиска записи
-    ym(MY_METRIKA_ID, 'notBounce'); // Фиксируем вход
+    window.addEventListener('load', function() {
+        // Имитируем активность через 100мс
+        setTimeout(() => {
+            ym(MY_METRIKA_ID, 'hit', window.location.href);
+            // Важно для Android: принудительная инициализация записи мутаций
+            if (window.visualViewport) {
+                ym(MY_METRIKA_ID, 'notBounce');
+            }
+        }, 100);
+    });
 }
 
 // Отправляем ID пользователя в Метрику принудительно
