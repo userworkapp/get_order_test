@@ -169,14 +169,18 @@
     background: var(--sec-bg);
     border-radius: 12px;
     padding: 14px;
-    margin: 20px 0 10px 0; /* Отступ сверху 20px, снизу 10px */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    margin: 20px 0 10px 0;
     cursor: pointer;
     border: 1px solid rgba(36, 129, 204, 0.2);
     transition: all 0.2s ease;
+}
+
+/* Контейнер внутри плашки для выравнивания */
+.video-banner-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Текст слева, иконка справа */
+    gap: 10px;
 }
 
 .video-banner:active {
@@ -189,38 +193,17 @@
     color: var(--primary);
 }
 
-/* Модальное окно (оставляем из прошлого примера) */
-.video-overlay {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(8px);
+/* Стили для иконки-изображения (Вариант 1) */
+.video-banner-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
 }
 
-.video-content {
-    position: relative;
-    width: 90%;
-    max-width: 450px;
-}
-
-.video-content video {
-    width: 100%;
-    border-radius: 20px;
-    display: block;
-}
-
-.close-video {
-    position: absolute;
-    top: -45px;
-    right: 0;
-    color: white;
-    font-size: 35px;
-    padding: 10px;
+/* Стили для SVG иконки (Вариант 2) */
+.video-banner-icon-svg {
+    width: 24px;
+    height: 24px;
 }
     
     </style>
@@ -281,16 +264,14 @@
 </div>
 
 <div class="video-banner" onclick="openVideo('review.mp4')">
-    <span>🎬</span>
-    <b>Смотреть видео-обзор системы</b>
-</div>
-
-<div id="videoOverlay" class="video-overlay" onclick="closeVideo()">
-    <div class="video-content" onclick="event.stopPropagation()">
-        <div class="close-video" onclick="closeVideo()">&times;</div>
-        <video id="player" controls playsinline preload="none">
-            <source src="" type="video/mp4">
-        </video>
+    <div class="video-banner-content">
+        <b>Смотреть видео-обзор системы</b>
+        
+        <svg class="video-banner-icon-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 19H5V8H19V19ZM19 4V6H5V4C5 3.44772 5.44772 3 6 3H18C18.5523 3 19 3.44772 19 4Z" fill="#2481cc"/>
+            <path d="M19 8H5V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V8Z" fill="#2481cc" fill-opacity="0.1"/>
+            <path d="M5 8L19 4M5 8V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V8" stroke="#2481cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
     </div>
 </div>
     
