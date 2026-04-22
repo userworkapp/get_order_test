@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Оформление заказа</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script type="text/javascript" >
@@ -19,9 +19,7 @@
             trackLinks:true,
             accurateTrackBounce:true,
             webvisor:true,
-            ecommerce:"dataLayer",
-            triggerEvent:true,
-           trustedDomains: ["web.telegram.org", "t.me"]
+            ecommerce:"dataLayer"
        });
     </script>
  
@@ -165,9 +163,69 @@
         }
         .btn-main.ready { opacity: 1; box-shadow: 0 4px 15px rgba(36, 129, 204, 0.3); }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Отдельная плашка для видео */
+.video-banner {
+    background: var(--sec-bg);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 20px 0 10px 0; /* Отступ сверху 20px, снизу 10px */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    border: 1px solid rgba(36, 129, 204, 0.2);
+    transition: all 0.2s ease;
+}
+
+.video-banner:active {
+    transform: scale(0.98);
+    background: rgba(36, 129, 204, 0.05);
+}
+
+.video-banner b {
+    font-size: 14px;
+    color: var(--primary);
+}
+
+/* Модальное окно (оставляем из прошлого примера) */
+.video-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+}
+
+.video-content {
+    position: relative;
+    width: 90%;
+    max-width: 450px;
+}
+
+.video-content video {
+    width: 100%;
+    border-radius: 20px;
+    display: block;
+}
+
+.close-video {
+    position: absolute;
+    top: -45px;
+    right: 0;
+    color: white;
+    font-size: 35px;
+    padding: 10px;
+}
+    
     </style>
 </head>
-<body onload="document.body.style.opacity='1'; updateUrgency();">
+<body class="ym-disable-keys" onload="document.body.style.opacity='1'; updateUrgency();">
 
 <div id="progress"></div>
 
@@ -222,6 +280,20 @@
     </div>
 </div>
 
+<div class="video-banner" onclick="openVideo('ССЫЛКА_НА_ТВОЕ_ВИДЕО.mp4')">
+    <span>🎬</span>
+    <b>Смотреть видео-обзор системы</b>
+</div>
+
+<div id="videoOverlay" class="video-overlay" onclick="closeVideo()">
+    <div class="video-content" onclick="event.stopPropagation()">
+        <div class="close-video" onclick="closeVideo()">&times;</div>
+        <video id="player" controls playsinline preload="none">
+            <source src="" type="video/mp4">
+        </video>
+    </div>
+</div>
+    
 <div class="info-container">
     <details> <summary>📦 Подробнее</summary>
         <div class="details-content">
@@ -460,7 +532,7 @@
         // Пауза перед закрытием, чтобы Метрика успела отправить запрос
         setTimeout(() => {
             tg.close();
-        }, 1000);
+        }, 500);
     }
 
     // Инициализация цен в карточках из объекта PRICES
@@ -472,20 +544,6 @@
 
     // Ждем, пока Telegram скажет "я готов"
 tg.ready(); 
-
-// Принудительный перезапуск записи для Android WebView
-if (typeof ym !== 'undefined') {
-    window.addEventListener('load', function() {
-        // Имитируем активность через 100мс
-        setTimeout(() => {
-            ym(MY_METRIKA_ID, 'hit', window.location.href);
-            // Важно для Android: принудительная инициализация записи мутаций
-            if (window.visualViewport) {
-                ym(MY_METRIKA_ID, 'notBounce');
-            }
-        }, 100);
-    });
-}
 
 // Отправляем ID пользователя в Метрику принудительно
 if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
@@ -499,6 +557,28 @@ if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData
     ym(MY_METRIKA_ID, 'userParams', {
         tg_id: "not_in_telegram"
     });
+}
+    function openVideo(src) {
+    const overlay = document.getElementById('videoOverlay');
+    const player = document.getElementById('player');
+    
+    player.src = src;
+    overlay.style.display = 'flex';
+    player.play();
+
+    // Виброотклик Telegram (средний удар)
+    if (tg.isVersionAtLeast('6.1')) {
+        tg.HapticFeedback.impactOccurred('medium');
+    }
+}
+
+function closeVideo() {
+    const overlay = document.getElementById('videoOverlay');
+    const player = document.getElementById('player');
+    
+    player.pause();
+    player.src = ""; // Важно: очищаем src, чтобы остановить загрузку данных
+    overlay.style.display = 'none';
 }
 </script>
 </body>
