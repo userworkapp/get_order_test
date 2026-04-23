@@ -568,12 +568,7 @@
     document.getElementById('price_recipes').innerText = PRICES.recipes + '₽';
     document.getElementById('price_cards').innerText = PRICES.cards + '₽';
     document.getElementById('price_combo').innerText = PRICES.combo + '₽';
-    
-    updateProgress();
-
-    // Ждем, пока Telegram скажет "я готов"
-tg.ready(); 
-
+     
 // Отправляем ID пользователя в Метрику принудительно
 if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
     const userId = window.Telegram.WebApp.initDataUnsafe.user.id;
@@ -590,12 +585,15 @@ if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initData
     function openVideo(src) {
     const overlay = document.getElementById('videoOverlay');
     const player = document.getElementById('player');
+    const source = player.querySelector('source');
     
-    player.src = src;
+    // Правильная установка источника для видео
+    source.src = src;
+    player.load(); // Обязательно для смены источника
+    
     overlay.style.display = 'flex';
-    player.play();
+    player.play().catch(e => console.log("Автоплей заблокирован"));
 
-    // Виброотклик Telegram (средний удар)
     if (tg.isVersionAtLeast('6.1')) {
         tg.HapticFeedback.impactOccurred('medium');
     }
@@ -606,9 +604,14 @@ function closeVideo() {
     const player = document.getElementById('player');
     
     player.pause();
-    player.src = ""; // Важно: очищаем src, чтобы остановить загрузку данных
     overlay.style.display = 'none';
+    player.querySelector('source').src = ""; 
 }
+
+// Финальная инициализация
+tg.ready(); 
+updateProgress();
+    
 </script>
 </body>
 </html>
