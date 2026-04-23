@@ -178,49 +178,41 @@
     border: 1px solid rgba(36, 129, 204, 0.2);
     transition: all 0.2s ease;
     position: relative;
-    overflow: hidden;
+    overflow: hidden; /* Обрезает лишние камеры по краям */
 }
 
-/* Первый слой "рассыпанных" камер */
+/* Слой с "рассыпанными" камерами по всей площади */
 .video-banner::before {
-    content: "🎥      📹   🎥\A  📹    🎥      📹"; /* \A - это перенос строки */
-    white-space: pre; /* Чтобы работали пробелы и переносы */
+    /* Добавляем много иконок с разным количеством пробелов между ними */
+    content: "🎥   📹    🎥   📹   🎥\A   📹    🎥   📹    🎥   📹\A 🎥   📹    🎥   📹   🎥";
+    white-space: pre; /* Позволяет работать переносам строк \A */
     position: absolute;
-    font-size: 14px;
-    opacity: 0.15;
-    top: -5px;
-    left: -10px;
-    transform: rotate(-15deg);
+    width: 150%; /* Делаем слой шире кнопки */
+    height: 150%; /* И выше кнопки */
+    font-size: 16px;
+    opacity: 0.12; /* Прозрачность */
+    top: -10%; 
+    left: -10%;
+    transform: rotate(-15deg); /* Наклоняем всё "облако" иконок */
     pointer-events: none;
-    line-height: 1.5;
-}
-
-/* Второй слой "рассыпанных" камер (смещенный и другой) */
-.video-banner::after {
-    content: "📹    🎥   📹\A🎥      📹    🎥";
-    white-space: pre;
-    position: absolute;
-    font-size: 11px;
-    opacity: 0.12;
-    bottom: -5px;
-    right: -10px;
-    transform: rotate(10deg);
-    pointer-events: none;
-    line-height: 1.2;
+    line-height: 1.8; /* Расстояние между рядами камер */
+    text-align: center;
 }
 
 .video-banner:active {
     transform: scale(0.98);
-    background: rgba(36, 129, 204, 0.05);
 }
 
 .video-banner b {
     font-size: 14px;
     color: var(--primary);
     position: relative;
-    z-index: 5; /* Текст гарантированно сверху */
-    /* Добавим легкую подложку тексту, чтобы иконки не мешали читать */
-    text-shadow: 0 0 10px var(--sec-bg), 0 0 5px var(--sec-bg);
+    z-index: 10; /* Текст ВСЕГДА поверх камер */
+    /* Эффект "островка" для текста, чтобы камеры под ним не мешали */
+    background: var(--sec-bg);
+    padding: 2px 8px;
+    border-radius: 6px;
+    box-shadow: 0 0 15px 10px var(--sec-bg);
 }
 
 /* Модальное окно */
@@ -410,7 +402,7 @@
         if (now.getHours() < 17) {
             textElem.innerHTML = `Заказали уже <b>${ordersCount} шт</b>. Если успеешь оформить до <b>17:00</b>, тогда отправлю сегодня!`;
         } else {
-            textElem.innerHTML = `Дневную партию уже отправил. Закажи сейчас, чтобы я отправил <b>уже завтра утром</b>!`;
+            textElem.innerHTML = `Дневную партию уже отправил. Закажешь сейчас, отправлю <b>завтра утром</b>!`;
         }
         banner.style.display = 'flex';
     }
