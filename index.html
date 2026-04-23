@@ -164,7 +164,7 @@
         .btn-main.ready { opacity: 1; box-shadow: 0 4px 15px rgba(36, 129, 204, 0.3); }
         @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
- /* Отдельная плашка для видео */
+/* Основная плашка */
 .video-banner {
     background: var(--sec-bg);
     border-radius: 12px;
@@ -177,22 +177,36 @@
     cursor: pointer;
     border: 1px solid rgba(36, 129, 204, 0.2);
     transition: all 0.2s ease;
-    position: relative; /* Нужно для позиционирования узора */
-    overflow: hidden;   /* Чтобы узор не вылезал за границы */
+    position: relative;
+    overflow: hidden;
 }
 
-/* Создаем узор из камер на фоне */
+/* Первый слой "рассыпанных" камер */
 .video-banner::before {
-    content: "🎥 📹 🎥 📹 🎥 📹";
+    content: "🎥      📹   🎥\A  📹    🎥      📹"; /* \A - это перенос строки */
+    white-space: pre; /* Чтобы работали пробелы и переносы */
     position: absolute;
-    font-size: 10px;
-    opacity: 0.15; /* Делаем иконки очень бледными, чтобы не мешали тексту */
-    white-space: nowrap;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-10deg);
-    letter-spacing: 20px;
-    pointer-events: none; /* Чтобы клик проходил сквозь иконки */
+    font-size: 14px;
+    opacity: 0.15;
+    top: -5px;
+    left: -10px;
+    transform: rotate(-15deg);
+    pointer-events: none;
+    line-height: 1.5;
+}
+
+/* Второй слой "рассыпанных" камер (смещенный и другой) */
+.video-banner::after {
+    content: "📹    🎥   📹\A🎥      📹    🎥";
+    white-space: pre;
+    position: absolute;
+    font-size: 11px;
+    opacity: 0.12;
+    bottom: -5px;
+    right: -10px;
+    transform: rotate(10deg);
+    pointer-events: none;
+    line-height: 1.2;
 }
 
 .video-banner:active {
@@ -203,8 +217,10 @@
 .video-banner b {
     font-size: 14px;
     color: var(--primary);
-    position: relative; /* Чтобы текст был выше узора */
-    z-index: 1;
+    position: relative;
+    z-index: 5; /* Текст гарантированно сверху */
+    /* Добавим легкую подложку тексту, чтобы иконки не мешали читать */
+    text-shadow: 0 0 10px var(--sec-bg), 0 0 5px var(--sec-bg);
 }
 
 /* Модальное окно */
