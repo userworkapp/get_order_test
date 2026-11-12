@@ -352,7 +352,12 @@
 
         if (selectedProduct !== 'recipes' && addrField) {
             const addressText = addrField.value.toLowerCase();
-            const remoteRegions = ['магадан', 'якутск', 'норильск', 'сахалин', 'камчатк', 'анадырь', 'чукот', 'дудинка'];
+            const remoteRegions = [
+                    'магадан', 'якутск', 'норильск', 'сахалин', 'камчатк', 'анадырь',
+                    'чукот', 'дудинка', 'петропавловск-камчатский', 'южно-сахалинск',
+                    'салехард', 'мирный', 'казахстан', 'беларусь', 'узбекистан',
+                    'таджикистан', 'кыргызстан', 'киргизия', 'армения', 'азербайджан'
+                                    ];
             const isRemote = remoteRegions.some(region => addressText.includes(region));
 
             if (isRemote) {
